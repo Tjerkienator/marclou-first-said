@@ -1,9 +1,9 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from marclou_first_said.models import Video
-from marclou_first_said.config import Settings
+from marclou_first_said.dependencies import settings
 
 class DatabaseService:
-    def __init__(self, settings: Settings):
+    def __init__(self):
         self.client = AsyncIOMotorClient(settings.mongodb_uri)
         self.db = self.client.youtube_bot
         

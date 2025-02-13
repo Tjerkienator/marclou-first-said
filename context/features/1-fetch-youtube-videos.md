@@ -12,3 +12,4 @@ Acceptance Criteria:
 - the focuss lies on writing modular code.
 - ensure any new packages are installed using python poetry.
 - manage the init files for functions and services imports.
+- manage the env variables through the dependencies.py file.

@@ -1,12 +1,10 @@
 import asyncio
 from marclou_first_said.services import YouTubeService, DatabaseService
-from marclou_first_said.config import Settings
 
 async def fetch_new_videos():
     """Main task to fetch and store new videos"""
-    settings = Settings()
-    youtube = YouTubeService(settings)
-    db = DatabaseService(settings)
+    youtube = YouTubeService()
+    db = DatabaseService()
     
     # Fetch recent videos
     videos = youtube.fetch_recent_videos()

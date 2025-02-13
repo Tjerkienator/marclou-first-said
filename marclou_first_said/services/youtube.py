@@ -2,10 +2,10 @@ from googleapiclient.discovery import build
 from datetime import datetime
 from typing import List
 from marclou_first_said.models import Video
-from marclou_first_said.config import Settings
+from marclou_first_said.dependencies import settings
 
 class YouTubeService:
-    def __init__(self, settings: Settings):
+    def __init__(self):
         self.api_key = settings.youtube_api_key
         self.channel_id = settings.youtube_channel_id
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
