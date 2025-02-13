@@ -10,3 +10,5 @@ Acceptance Criteria:
 - Log successful retrieval and storage of videos for debugging purposes.
 - MongoDB client should be handled in a separate file.
 - the focuss lies on writing modular code.
+- ensure any new packages are installed using python poetry.
+- manage the init files for functions and services imports.

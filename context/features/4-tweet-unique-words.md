@@ -11,3 +11,5 @@ Acceptance Criteria:
 - Handle rate limits and API errors with appropriate retry mechanisms.
 - Log all tweet activity for debugging and analysis.
 - the focuss lies on writing modular code.
+- ensure any new packages are installed using python poetry.
+- manage the init files for functions and services imports.

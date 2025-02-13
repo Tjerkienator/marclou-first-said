@@ -11,3 +11,5 @@ Acceptance Criteria:
 - Insert new words into the MongoDB words collection with a tweeted: false flag.
 - Store metadata such as the originating video ID for each word.
 - the focuss lies on writing modular code.
+- ensure any new packages are installed using python poetry.
+- manage the init files for functions and services imports.
