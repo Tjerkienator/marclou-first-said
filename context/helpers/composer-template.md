@@ -3,6 +3,7 @@ We will on implementing the following feature: <PRD_Document>
 Additional inputs:
 
 Progress tracking: @progress.md 
+Database schema: @database-schema.md
 Tech stack: @tech-stack.md 
 Feature source: <PRD_Document> 
 Project description: @project-description.md

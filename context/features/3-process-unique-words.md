@@ -1,0 +1,13 @@
+# Process Unique Words
+
+Story: As a system, I need to extract unique words from a video's transcript and check if they have been tweeted before to maintain originality.
+
+Acceptance Criteria:
+
+- Retrieve transcripts from MongoDB that have not yet been processed.
+- Tokenize transcripts into individual words, removing duplicates.
+- Normalize words (convert to lowercase, remove punctuation, and handle contractions).
+- Check MongoDB if each word has already been stored.
+- Insert new words into the MongoDB words collection with a tweeted: false flag.
+- Store metadata such as the originating video ID for each word.
+- the focuss lies on writing modular code.
