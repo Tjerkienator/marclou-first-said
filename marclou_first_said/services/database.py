@@ -2,6 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from marclou_first_said.models import Video
 from marclou_first_said.dependencies import settings
 import logging
+from datetime import datetime
 
 class DatabaseService:
     def __init__(self):
@@ -14,9 +15,17 @@ class DatabaseService:
         existing_count = 0
         
         for video in videos:
+            # Initialize transcript fields for new videos
+            video_data = video.dict()
+            video_data.update({
+                "transcript": None,
+                "transcript_fetched": False,
+                "transcript_fetched_at": None
+            })
+            
             result = await self.db.videos.update_one(
                 {"video_id": video.video_id},
-                {"$setOnInsert": video.dict()},
+                {"$setOnInsert": video_data},
                 upsert=True
             )
             
@@ -30,4 +39,22 @@ class DatabaseService:
     async def get_unprocessed_videos(self):
         """Get videos that haven't been processed yet"""
         cursor = self.db.videos.find({"processed": False})
-        return [Video(**video) async for video in cursor] 
+        return [Video(**video) async for video in cursor]
+
+    async def get_videos_without_transcript(self):
+        """Get videos that don't have transcripts yet"""
+        cursor = self.db.videos.find({"transcript_fetched": False})
+        return [Video(**video) async for video in cursor]
+    
+    async def update_video_transcript(self, video_id: str, transcript: str | None):
+        """Update video with transcript information"""
+        await self.db.videos.update_one(
+            {"video_id": video_id},
+            {
+                "$set": {
+                    "transcript": transcript,
+                    "transcript_fetched": True,
+                    "transcript_fetched_at": datetime.utcnow()
+                }
+            }
+        ) 

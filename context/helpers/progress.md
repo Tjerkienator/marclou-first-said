@@ -6,6 +6,24 @@
 - 🔴 Blocked
 - ⚪ Not Started
 
+### [2025-02-15]
+- 🟡 Implemented YouTube transcript fetching
+  - Created TranscriptService for fetching video transcripts
+  - Added transcript fields to Video model
+  - Implemented async transcript fetching and storage
+  - Added rate limiting (1 second delay between requests)
+  - Created fetch_transcripts task
+- Technical decisions:
+  - Using youtube_transcript_api for reliable transcript access
+  - Storing transcripts in same collection as videos for atomic updates
+  - Added transcript_fetched flag for tracking
+  - Documented storage decision in ADR
+- Next steps:
+  - Test with larger video sets
+  - Add error retry mechanism
+  - Monitor transcript sizes
+  - Add transcript processing pipeline
+
 ### [2025-02-14]
 - 🟢 Enhanced YouTube video fetching feature
   - Added pagination to fetch all channel videos
@@ -41,4 +59,4 @@
   - Set up Heroku scheduler
 
 ---
-Last Updated: 2025-02-14
+Last Updated: 2025-02-15

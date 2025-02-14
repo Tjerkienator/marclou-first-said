@@ -41,6 +41,14 @@ poetry run flake8 .
 poetry run mypy .
 ```
 
+## Documentation
+
+### Architecture Decision Records (ADRs)
+
+We maintain Architecture Decision Records (ADRs) in the `docs/adr` directory to document significant architectural decisions. Current ADRs include:
+
+1. [Transcript Storage Strategy](docs/adr/001-transcript-storage.md) - Documents our approach to storing YouTube video transcripts in MongoDB
+
 ## License
 
 This project is licensed under the MIT License.

@@ -20,6 +20,9 @@ class Video(BaseModel):
     live_broadcast_content: str = Field(..., description="Live broadcast status")
     processed: bool = Field(default=False, description="Whether video has been processed")
     processed_at: Optional[datetime] = Field(default=None, description="When video was processed")
+    transcript: Optional[str] = Field(default=None, description="Video transcript text")
+    transcript_fetched: bool = Field(default=False, description="Whether transcript has been fetched")
+    transcript_fetched_at: Optional[datetime] = Field(default=None, description="When transcript was fetched")
     
     class Config:
         collection = "videos" 
