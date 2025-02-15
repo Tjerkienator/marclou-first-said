@@ -1,1 +1,1 @@
-release: python -m pip install -r requirements.txt 
+release: poetry install --no-dev 
