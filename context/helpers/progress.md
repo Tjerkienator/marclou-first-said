@@ -8,18 +8,18 @@
 
 ### [2025-02-15]
 - 🟢 Implemented Heroku deployment
-  - Created simplified Procfile with worker process
   - Added .python-version for Python runtime specification
   - Removed unused dependencies (NLTK, pytest)
   - Generated requirements.txt for Heroku compatibility
   - Set up environment for Heroku Scheduler
   - Fixed Python command to use python3
+  - Removed Procfile as it's not needed for scheduler-only apps
 - Technical decisions:
   - Using standard Python buildpack for dependency management
   - Specified Python 3.11 major version for security updates
-  - Simplified deployment by removing unnecessary release phase
+  - Relying solely on Heroku Scheduler for task execution
   - Using direct .py file paths instead of module notation
-  - Using python3 command explicitly in worker process
+  - Using python3 command explicitly in scheduled tasks
 - Next steps:
   - Monitor task execution and logs
   - Set up monitoring for API rate limits
