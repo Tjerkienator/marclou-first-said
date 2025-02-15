@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "marclou-first-said"
 version = "0.1.0"
-description = "A Python project created with Poetry"
-authors = ["Tjerkienator <douwe@fryslanecom.com>"]
+description = "YouTube-to-Twitter Bot for monitoring and tweeting unique words from new videos"
+authors = ["Tjerkienator"]
 readme = "README.md"
 packages = [{include = "marclou_first_said"}]
 
@@ -13,16 +13,13 @@ motor = "^3.7.0"
 pydantic = "^2.10.6"
 pydantic-settings = "^2.7.1"
 youtube-transcript-api = "^0.6.3"
-nltk = "^3.9.1"
 tweepy = "^4.14.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
 black = "^23.7.0"
 isort = "^5.12.0"
 flake8 = "^6.1.0"
 mypy = "^1.5.0"
-pytest-asyncio = "^0.21.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -42,8 +39,3 @@ python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_functions = ["test_*"]
