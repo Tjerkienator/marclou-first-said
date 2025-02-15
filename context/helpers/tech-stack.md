@@ -18,7 +18,8 @@
 
 - Heroku – Cloud deployment platform
 - Heroku Scheduler – Cost-efficient task scheduling
-- Poetry buildpack – Native dependency management
+- Poetry – Used during build/release phase only
+- Python runtime – Direct command execution
 
 ## Development Tools
 
