@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from marclou_first_said.models import Video
+from marclou_first_said.models import Video, Word
 from marclou_first_said.dependencies import settings
 import logging
 from datetime import datetime
@@ -36,9 +36,12 @@ class DatabaseService:
         
         logging.info(f"Processed {len(videos)} videos: {new_count} new, {existing_count} existing")
     
-    async def get_unprocessed_videos(self):
-        """Get videos that haven't been processed yet"""
-        cursor = self.db.videos.find({"processed": False})
+    async def get_unprocessed_videos(self, limit: int = 10):
+        """Get videos that haven't been processed yet but have transcripts"""
+        cursor = self.db.videos.find({
+            "transcript_fetched": True,
+            "processed": False
+        }).sort("published_at", 1).limit(limit)
         return [Video(**video) async for video in cursor]
 
     async def get_videos_without_transcript(self):
@@ -55,6 +58,33 @@ class DatabaseService:
                     "transcript": transcript,
                     "transcript_fetched": True,
                     "transcript_fetched_at": datetime.utcnow()
+                }
+            }
+        )
+    
+    async def save_words(self, words: list[Word]):
+        """Save new words to database"""
+        if not words:
+            return 0
+            
+        word_docs = [word.dict() for word in words]
+        result = await self.db.words.insert_many(word_docs)
+        return len(result.inserted_ids)
+    
+    async def get_existing_words(self, words: set[str]) -> set[str]:
+        """Get words that already exist in the database"""
+        cursor = self.db.words.find({"word": {"$in": list(words)}})
+        existing = {doc["word"] async for doc in cursor}
+        return existing
+    
+    async def mark_video_as_processed(self, video_id: str):
+        """Mark a video as processed"""
+        await self.db.videos.update_one(
+            {"video_id": video_id},
+            {
+                "$set": {
+                    "processed": True,
+                    "processed_at": datetime.utcnow()
                 }
             }
         ) 
