@@ -14,8 +14,8 @@ class WordProcessingService:
         """Normalize a word by converting to lowercase and removing punctuation."""
         # Convert to lowercase
         word = word.lower()
-        # Remove punctuation and special characters
-        word = re.sub(r'[^\w\s]', '', word)
+        # Remove punctuation, special characters, and underscores
+        word = re.sub(r'[^\w\s]', '', word).replace('_', '')
         return word.strip()
     
     def _get_unique_words(self, text: str) -> Set[str]:
