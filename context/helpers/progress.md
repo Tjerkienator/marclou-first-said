@@ -7,6 +7,25 @@
 - ⚪ Not Started
 
 ### [2025-02-15]
+- 🟢 Implemented Heroku deployment
+  - Created Procfile with release phase configuration
+  - Added .python-version for Python runtime specification
+  - Removed unused dependencies (NLTK, pytest)
+  - Configured Poetry for Heroku deployment
+  - Set up environment for Heroku Scheduler
+- Technical decisions:
+  - Using Poetry directly on Heroku instead of requirements.txt
+  - Specified Python 3.11 major version for security updates
+  - Removed worker process in favor of Heroku Scheduler
+  - Keeping dev dependencies separate with --no-dev flag
+  - Using release phase for dependency installation
+- Next steps:
+  - Set up scheduled tasks in Heroku Scheduler
+  - Monitor task execution and logs
+  - Set up monitoring for API rate limits
+  - Configure error notifications
+
+### [2025-02-15]
 - 🟢 Implemented Twitter word posting feature
   - Created TwitterService for automated word tweeting
   - Implemented robust rate limiting (50 tweets/hour)

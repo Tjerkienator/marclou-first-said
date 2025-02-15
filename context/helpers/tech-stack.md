@@ -7,17 +7,26 @@
 ## Database
 
 - MongoDB Atlas – Cloud-based database storage
+- Motor – Async MongoDB driver for Python
 
 ## APIs
 
 - YouTube Data API v3 – Fetches video details and transcripts
-- Tweepy (Twitter API Wrapper) – Tweets words automatically
+- Tweepy (Twitter API Wrapper) – Tweets words with rate limiting
 
 ## Deployment
 
 - Heroku – Cloud deployment platform
-- Redis (if using Celery)
-- Heroku Scheduler – Runs periodic tasks (alternative to Celery)
+- Heroku Scheduler – Cost-efficient task scheduling
+- Poetry buildpack – Native dependency management
+
+## Development Tools
+
+- Black – Code formatting
+- isort – Import sorting
+- flake8 – Code linting
+- mypy – Static type checking
+- Pydantic – Data validation and settings management
 
 ## Other Tools
 
