@@ -8,19 +8,19 @@
 
 ### [2025-02-15]
 - 🟢 Implemented Heroku deployment
-  - Created Procfile with release phase configuration
+  - Created simplified Procfile with worker process
   - Added .python-version for Python runtime specification
   - Removed unused dependencies (NLTK, pytest)
-  - Configured Poetry for Heroku deployment
+  - Generated requirements.txt for Heroku compatibility
   - Set up environment for Heroku Scheduler
+  - Fixed Python command to use python3
 - Technical decisions:
-  - Using Poetry directly on Heroku instead of requirements.txt
+  - Using standard Python buildpack for dependency management
   - Specified Python 3.11 major version for security updates
-  - Removed worker process in favor of Heroku Scheduler
-  - Keeping dev dependencies separate with --no-dev flag
-  - Using release phase for dependency installation
+  - Simplified deployment by removing unnecessary release phase
+  - Using direct .py file paths instead of module notation
+  - Using python3 command explicitly in worker process
 - Next steps:
-  - Set up scheduled tasks in Heroku Scheduler
   - Monitor task execution and logs
   - Set up monitoring for API rate limits
   - Configure error notifications
