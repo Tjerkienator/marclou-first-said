@@ -46,8 +46,6 @@ def rate_limit(calls: int = 500, period: int = 30 * 24 * 3600):  # 500 tweets pe
     return decorator
 
 class TwitterService:
-    MAX_RETRIES = 3
-    RETRY_DELAY = 5  # seconds
     TWEETS_PER_MONTH = 500  # Twitter API v2 Free Basic tier limit
     
     def __init__(self, db_service: DatabaseService):
@@ -72,48 +70,39 @@ class TwitterService:
     @rate_limit(calls=500, period=30 * 24 * 3600)  # 500 tweets per 30 days (Twitter API v2 Free Basic tier)
     async def tweet_word(self, word: Word) -> bool:
         """Post a word to Twitter and update its status in the database."""
-        for attempt in range(self.MAX_RETRIES):
-            try:
-                # Post tweet
-                tweet = self.client.create_tweet(text=word.word)
-                
-                # Update word status in database
-                await self.db.db.words.update_one(
-                    {"word": word.word},
-                    {
-                        "$set": {
-                            "tweeted": True,
-                            "tweeted_at": datetime.utcnow()
-                        }
-                    }
-                )
-                
-                logging.info(f"Successfully tweeted word: {word.word}")
-                return True
-                
-            except tweepy.TooManyRequests as e:
-                reset_time = int(e.response.headers.get('x-rate-limit-reset', 0))
-                if reset_time:
-                    wait_time = reset_time - datetime.utcnow().timestamp()
-                    if wait_time > 0:
-                        hours = int(wait_time / 3600)
-                        minutes = int((wait_time % 3600) / 60)
-                        reset_datetime = datetime.fromtimestamp(reset_time)
-                        logging.warning(
-                            f"Twitter API rate limit exceeded. "
-                            f"Will be available at {reset_datetime} "
-                            f"(in {hours} hours and {minutes} minutes)"
-                        )
-                return False
+        try:
+            # Post tweet
+            tweet = self.client.create_tweet(text=word.word)
             
-            except tweepy.TweepyException as e:
-                if attempt < self.MAX_RETRIES - 1:
-                    wait_time = self.RETRY_DELAY * (2 ** attempt)  # Exponential backoff
-                    logging.warning(f"Error tweeting word {word.word} (attempt {attempt + 1}/{self.MAX_RETRIES}): {str(e)}")
-                    logging.info(f"Retrying in {wait_time} seconds...")
-                    await asyncio.sleep(wait_time)
-                else:
-                    logging.error(f"Failed to tweet word {word.word} after {self.MAX_RETRIES} attempts: {str(e)}")
-                    return False
+            # Update word status in database
+            await self.db.db.words.update_one(
+                {"word": word.word},
+                {
+                    "$set": {
+                        "tweeted": True,
+                        "tweeted_at": datetime.utcnow()
+                    }
+                }
+            )
+            
+            logging.info(f"Successfully tweeted word: {word.word}")
+            return True
+            
+        except tweepy.TooManyRequests as e:
+            reset_time = int(e.response.headers.get('x-rate-limit-reset', 0))
+            if reset_time:
+                wait_time = reset_time - datetime.utcnow().timestamp()
+                if wait_time > 0:
+                    reset_datetime = datetime.fromtimestamp(reset_time)
+                    hours = int(wait_time / 3600)
+                    minutes = int((wait_time % 3600) / 60)
+                    logging.warning(
+                        f"Twitter API rate limit exceeded. "
+                        f"Will be available at {reset_datetime} "
+                        f"(in {hours} hours and {minutes} minutes)"
+                    )
+            return False
         
-        return False 
+        except tweepy.TweepyException as e:
+            logging.error(f"Failed to tweet word {word.word}: {str(e)}")
+            return False 
